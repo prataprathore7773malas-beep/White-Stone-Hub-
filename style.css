@@ -1206,3 +1206,6 @@ font-size:36px;
 padding:25px;
 }
 }
+nav ul li a.active{
+color:#d4af37;
+}
