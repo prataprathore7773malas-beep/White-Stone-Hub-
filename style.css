@@ -507,6 +507,8 @@ line-height:1.05;
 
 margin-bottom:18px;
 
+white-space:nowrap; /* Fixes company name into one single line */
+
 }
 
 .hero-left h2{
@@ -1399,7 +1401,7 @@ transition:.5s;
 
 .gallery-item:hover img{
 
-transform:scale);
+transform:scale(1.08); /* Fixed syntax error */
 
 }/*==================================================
         TESTIMONIALS
@@ -1567,7 +1569,7 @@ overflow:hidden;
 
 transition:.35s;
 
-
+} /* Fixed missing closing brace here */
 
 .faq-item:hover{
 
@@ -1979,232 +1981,4 @@ right:25px;
 
 bottom:25px;
 
-width:62px;
-
-height:62px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-background:#25D366;
-
-color:#fff;
-
-font-size:28px;
-
-z-index:999;
-
-box-shadow:0 15px 35px rgba(37,211,102,.35);
-
-animation:whatsappPulse 2s infinite;
-
-}
-
-/*==============================
-SCROLL TOP
-==============================*/
-
-.scroll-top{
-
-position:fixed;
-
-right:25px;
-
-bottom:105px;
-
-width:58px;
-
-height:58px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:linear-gradient(135deg,#D4AF37,#B8860B);
-
-color:#000;
-
-border:none;
-
-border-radius:50%;
-
-font-size:18px;
-
-cursor:pointer;
-
-opacity:0;
-
-visibility:hidden;
-
-transition:.35s;
-
-z-index:999;
-
-}
-
-.scroll-top.show{
-
-opacity:1;
-
-visibility:visible;
-
-}
-
-.scroll-top:hover{
-
-transform:translateY(-6px);
-
-}
-
-/*==============================
-RIPPLE
-==============================*/
-
-.ripple{
-
-position:absolute;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.35);
-
-transform:scale(0);
-
-animation:ripple .6s linear;
-
-pointer-events:none;
-
-}
-
-@keyframes ripple{
-
-100%{
-
-transform:scale(4);
-
-opacity:0;
-
-}
-
-}
-
-@keyframes whatsappPulse{
-
-0%{
-
-transform:scale(1);
-
-}
-
-50%{
-
-transform:scale(1.08);
-
-}
-
-100%{
-
-transform:scale(1);
-
-}
-
-}
-
-/*==============================
-RESPONSIVE
-==============================*/
-
-@media(max-width:992px){
-
-.hero-container,
-.about-container,
-.contact-container{
-
-grid-template-columns:1fr;
-
-}
-
-.products-grid,
-.gallery-grid,
-.why-grid,
-.services-grid,
-.business-grid,
-.counter-grid,
-.testimonial-grid,
-.hero-stats,
-.trust-container{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-.footer-container{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-}
-
-@media(max-width:768px){
-
-.nav-menu{
-
-display:none;
-
-}
-
-.nav-menu.show{
-
-display:block;
-
-position:absolute;
-
-top:90px;
-
-left:0;
-
-width:100%;
-
-background:#000;
-
-padding:30px;
-
-border-top:1px solid rgba(212,175,55,.10);
-
-}
-
-.nav-menu ul{
-
-flex-direction:column;
-
-gap:20px;
-
-}
-
-.menu-btn{
-
-display:block;
-
-}
-
-.hero{
-
-padding:150px 0 80px;
-
-}
-
-.hero-left h1{
-
-font-size:3rem;
-
-}
-
-.hero-left h
+width:62px; height:62px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#25D366; color:#fff; font-size:28px; z-index:999; box-shadow:0 15px 35px rgba(37,211,102,.35); animation:whatsappPulse 2s infinite; } /*============================== SCROLL TOP ==============================*/ .scroll-top{ position:fixed; right:25px; bottom:105px; width:58px; height:58px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#D4AF37,#B8860B); color:#000; border:none; border-radius:50%; font-size:18px; cursor:pointer; opacity:0; visibility:hidden; transition:.35s; z-index:999; } .scroll-top.show{ opacity:1; visibility:visible; } .scroll-top:hover{ transform:translateY(-6px); } /*============================== RIPPLE ==============================*/ .ripple{ position:absolute; border-radius:50%; background:rgba(255,255,255,.35); transform:scale(0); animation:ripple .6s linear; pointer-events:none; } @keyframes ripple{ 100%{ transform:scale(4); opacity:0; } } @keyframes whatsappPulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.08); } 100%{ transform:scale(1); } } /*============================== RESPONSIVE ==============================*/ @media(max-width:992px){ .hero-container, .about-container, .contact-container{ grid-template-columns:1fr; } .products-grid, .gallery-grid, .why-grid, .services-grid, .business-grid, .counter-grid, .testimonial-grid, .hero-stats, .trust-container{ grid-template-columns:repeat(2,1fr); } .footer-container{ grid-template-columns:repeat(2,1fr); } } @media(max-width:768px){ .nav-menu{ display:none; } .nav-menu.show{ display:block; position:absolute; top:90px; left:0; width:100%; background:#000; padding:30px; border-top:1px solid rgba(212,175,55,.10); } .nav-menu ul{ flex-direction:column; gap:20px; } .menu-btn{ display:block; } .hero{ padding:150px 0 80px; } .hero-left h1{ font-size:3rem; white-space: normal; /* Permits wrapping on smaller mobile devices */ } }
