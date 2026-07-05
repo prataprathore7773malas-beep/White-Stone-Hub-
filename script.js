@@ -5,6 +5,32 @@
 ==================================================*/
 
 /*==============================
+PRELOADER
+==============================*/
+
+window.addEventListener("load", () => {
+
+    const preloader = document.querySelector(".preloader");
+
+    if (preloader) {
+
+        preloader.style.opacity = "0";
+
+        preloader.style.visibility = "hidden";
+
+        preloader.style.transition = ".6s";
+
+        setTimeout(() => {
+
+            preloader.remove();
+
+        }, 600);
+
+    }
+
+});
+
+/*==============================
 STICKY NAVBAR
 ==============================*/
 
@@ -30,17 +56,17 @@ SMOOTH SCROLL
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
-    anchor.addEventListener("click", function (e) {
+    anchor.addEventListener("click", function(e){
 
         e.preventDefault();
 
         const target = document.querySelector(this.getAttribute("href"));
 
-        if (target) {
+        if(target){
 
             target.scrollIntoView({
 
-                behavior: "smooth"
+                behavior:"smooth"
 
             });
 
@@ -64,11 +90,11 @@ window.addEventListener("scroll", () => {
 
     sections.forEach(section => {
 
-        const sectionTop = section.offsetTop - 150;
+        const sectionTop = section.offsetTop - 140;
 
         const sectionHeight = section.clientHeight;
 
-        if (pageYOffset >= sectionTop) {
+        if(window.pageYOffset >= sectionTop){
 
             current = section.getAttribute("id");
 
@@ -76,11 +102,11 @@ window.addEventListener("scroll", () => {
 
     });
 
-    navLinks.forEach(link => {
+    navLinks.forEach(link=>{
 
         link.classList.remove("active");
 
-        if (link.getAttribute("href") === "#" + current) {
+        if(link.getAttribute("href")==="#" + current){
 
             link.classList.add("active");
 
@@ -98,7 +124,7 @@ const menuBtn = document.querySelector(".menu-btn");
 
 const navMenu = document.querySelector(".nav-menu");
 
-menuBtn.addEventListener("click", () => {
+menuBtn.addEventListener("click",()=>{
 
     navMenu.classList.toggle("show");
 
@@ -107,12 +133,12 @@ menuBtn.addEventListener("click", () => {
 });
 
 /*==============================
-AUTO CLOSE MENU
+AUTO CLOSE MOBILE MENU
 ==============================*/
 
-document.querySelectorAll(".nav-menu a").forEach(link => {
+document.querySelectorAll(".nav-menu a").forEach(link=>{
 
-    link.addEventListener("click", () => {
+    link.addEventListener("click",()=>{
 
         navMenu.classList.remove("show");
 
@@ -123,36 +149,28 @@ document.querySelectorAll(".nav-menu a").forEach(link => {
 });
 
 /*==============================
-BUTTON RIPPLE EFFECT
+CLICK OUTSIDE MENU
 ==============================*/
 
-const buttons = document.querySelectorAll(".btn-primary,.btn-secondary,.nav-btn");
+document.addEventListener("click",(e)=>{
 
-buttons.forEach(button => {
+    if(
 
-    button.addEventListener("click", function (e) {
+        !navMenu.contains(e.target)
 
-        const ripple = document.createElement("span");
+        &&
 
-        ripple.classList.add("ripple");
+        !menuBtn.contains(e.target)
 
-        const rect = button.getBoundingClientRect();
+    ){
 
-        ripple.style.left = e.clientX - rect.left + "px";
+        navMenu.classList.remove("show");
 
-        ripple.style.top = e.clientY - rect.top + "px";
+        menuBtn.classList.remove("active");
 
-        this.appendChild(ripple);
+    }
 
-        setTimeout(() => {
-
-            ripple.remove();
-
-        }, 600);
-
-    });
-
-}); /*==================================================
+});/*==================================================
         WHITE STONE HUB
       PREMIUM WEBSITE JS
             PART 2
@@ -164,31 +182,31 @@ COUNTER ANIMATION
 
 const counters = document.querySelectorAll(".counter");
 
-const counterObserver = new IntersectionObserver((entries) => {
+const counterObserver = new IntersectionObserver((entries)=>{
 
-    entries.forEach(entry => {
+    entries.forEach(entry=>{
 
-        if (entry.isIntersecting) {
+        if(entry.isIntersecting){
 
             const counter = entry.target;
 
-            const target = +counter.dataset.target;
+            const target = Number(counter.dataset.target);
 
-            let count = 0;
+            let current = 0;
 
-            const speed = target / 120;
+            const increment = target / 120;
 
-            const updateCounter = () => {
+            const updateCounter = ()=>{
 
-                if (count < target) {
+                current += increment;
 
-                    count += speed;
+                if(current < target){
 
-                    counter.innerText = Math.ceil(count);
+                    counter.innerText = Math.ceil(current);
 
                     requestAnimationFrame(updateCounter);
 
-                } else {
+                }else{
 
                     counter.innerText = target;
 
@@ -204,13 +222,13 @@ const counterObserver = new IntersectionObserver((entries) => {
 
     });
 
-}, {
+},{
 
-    threshold:0.5
+    threshold:.5
 
 });
 
-counters.forEach(counter => {
+counters.forEach(counter=>{
 
     counterObserver.observe(counter);
 
@@ -220,7 +238,7 @@ counters.forEach(counter => {
 SCROLL REVEAL
 ==============================*/
 
-const revealElements = document.querySelectorAll(
+const hiddenElements = document.querySelectorAll(
 
 ".about,.product-card,.counter-card,.why-card,.business-card,.service-card,.gallery-item,.testimonial-card,.faq-item,.contact-box,.contact-form"
 
@@ -244,7 +262,7 @@ const revealObserver = new IntersectionObserver((entries)=>{
 
 });
 
-revealElements.forEach(el=>{
+hiddenElements.forEach(el=>{
 
     el.classList.add("hidden");
 
@@ -270,7 +288,7 @@ faqItems.forEach(item=>{
 
                 other.classList.remove("active");
 
-                other.querySelector(".faq-answer").style.maxHeight=null;
+                other.querySelector(".faq-answer").style.maxHeight = null;
 
             }
 
@@ -278,15 +296,15 @@ faqItems.forEach(item=>{
 
         item.classList.toggle("active");
 
-        const answer=item.querySelector(".faq-answer");
+        const answer = item.querySelector(".faq-answer");
 
         if(item.classList.contains("active")){
 
-            answer.style.maxHeight=answer.scrollHeight+"px";
+            answer.style.maxHeight = answer.scrollHeight + "px";
 
         }else{
 
-            answer.style.maxHeight=null;
+            answer.style.maxHeight = null;
 
         }
 
@@ -295,42 +313,54 @@ faqItems.forEach(item=>{
 });
 
 /*==============================
-IMAGE HOVER EFFECT
+BUTTON RIPPLE EFFECT
 ==============================*/
 
-document.querySelectorAll(".gallery-item img,.product-card img").forEach(img=>{
+const buttons = document.querySelectorAll(
 
-    img.addEventListener("mousemove",(e)=>{
+".btn-primary,.btn-secondary,.nav-btn"
 
-        img.style.transform="scale(1.08)";
+);
+
+buttons.forEach(button=>{
+
+    button.addEventListener("click",function(e){
+
+        const ripple = document.createElement("span");
+
+        ripple.className="ripple";
+
+        const rect=this.getBoundingClientRect();
+
+        ripple.style.left=(e.clientX-rect.left)+"px";
+
+        ripple.style.top=(e.clientY-rect.top)+"px";
+
+        this.appendChild(ripple);
+
+        setTimeout(()=>{
+
+            ripple.remove();
+
+        },600);
 
     });
 
-    img.addEventListener("mouseleave",()=>{
-
-        img.style.transform="scale(1)";
-
-    });
-
-}); /*==================================================
-        WHITE STONE HUB
-      PREMIUM WEBSITE JS
-            PART 3
-==================================================*/
+});
 
 /*==============================
-SCROLL TO TOP BUTTON
+SCROLL TO TOP
 ==============================*/
 
-const scrollTopBtn = document.querySelector(".scroll-top");
+const scrollTopBtn=document.querySelector(".scroll-top");
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
 
-    if (window.scrollY > 400) {
+    if(window.scrollY>500){
 
         scrollTopBtn.classList.add("show");
 
-    } else {
+    }else{
 
         scrollTopBtn.classList.remove("show");
 
@@ -338,152 +368,29 @@ window.addEventListener("scroll", () => {
 
 });
 
-if (scrollTopBtn) {
+scrollTopBtn.addEventListener("click",()=>{
 
-    scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
 
-        window.scrollTo({
+        top:0,
 
-            top: 0,
-
-            behavior: "smooth"
-
-        });
+        behavior:"smooth"
 
     });
 
-}
-
-/*==============================
-NAVBAR CLOSE ON OUTSIDE CLICK
-==============================*/
-
-document.addEventListener("click", (e) => {
-
-    if (
-
-        navMenu.classList.contains("show") &&
-
-        !navMenu.contains(e.target) &&
-
-        !menuBtn.contains(e.target)
-
-    ) {
-
-        navMenu.classList.remove("show");
-
-        menuBtn.classList.remove("active");
-
-    }
-
 });
 
 /*==============================
-PRELOADER
+IMAGE HOVER
 ==============================*/
 
-window.addEventListener("load", () => {
+document.querySelectorAll(
 
-    const preloader = document.querySelector(".preloader");
+".gallery-item img,.product-card img"
 
-    if (preloader) {
+).forEach(img=>{
 
-        preloader.style.opacity = "0";
-
-        preloader.style.visibility = "hidden";
-
-        setTimeout(() => {
-
-            preloader.remove();
-
-        }, 600);
-
-    }
-
-});
-
-/*==============================
-PARALLAX HERO IMAGE
-==============================*/
-
-const heroImage = document.querySelector(".hero-right img");
-
-window.addEventListener("scroll", () => {
-
-    if (heroImage) {
-
-        const offset = window.pageYOffset;
-
-        heroImage.style.transform = `translateY(${offset * 0.08}px)`;
-
-    }
-
-});
-
-/*==============================
-SECTION FADE-UP ANIMATION
-==============================*/
-
-const hiddenElements = document.querySelectorAll(".hidden");
-
-hiddenElements.forEach((el) => {
-
-    el.style.transition = "all .8s ease";
-
-});
-
-/*==============================
-WHATSAPP BUTTON PULSE
-==============================*/
-
-const whatsappBtn = document.querySelector(".whatsapp-btn");
-
-if (whatsappBtn) {
-
-    setInterval(() => {
-
-        whatsappBtn.classList.add("pulse");
-
-        setTimeout(() => {
-
-            whatsappBtn.classList.remove("pulse");
-
-        }, 900);
-
-    }, 3000);
-
-}
-
-/*==============================
-CURRENT YEAR IN FOOTER
-==============================*/
-
-const year = document.querySelector(".current-year");
-
-if (year) {
-
-    year.textContent = new Date().getFullYear();
-
-}
-
-/*==============================
-DISABLE RIGHT CLICK
-(Optional - Remove if not needed)
-==============================*/
-
-// document.addEventListener("contextmenu", e => {
-
-//     e.preventDefault();
-
-// });
-
-/*==============================
-DISABLE IMAGE DRAG
-==============================*/
-
-document.querySelectorAll("img").forEach(img => {
-
-    img.setAttribute("draggable", "false");
+    img.setAttribute("draggable","false");
 
 });
 
@@ -493,14 +400,26 @@ CONSOLE BRANDING
 
 console.clear();
 
-console.log("%cWHITE STONE HUB",
-"color:#D4AF37;font-size:28px;font-weight:bold;");
+console.log(
 
-console.log("%cPremium Marble & Granite Collection",
-"color:#ffffff;font-size:14px;");
+"%cWHITE STONE HUB",
 
-console.log("%cWebsite Designed & Developed",
-"color:#BDBDBD;font-size:13px;");
+"color:#D4AF37;font-size:28px;font-weight:bold;"
 
-console.log("%cPowered by White Stone Hub",
-"color:#D4AF37;font-size:13px;");
+);
+
+console.log(
+
+"%cPremium Marble & Granite Collection",
+
+"color:#ffffff;font-size:15px;"
+
+);
+
+console.log(
+
+"%cWebsite Developed Successfully",
+
+"color:#bdbdbd;font-size:13px;"
+
+);
