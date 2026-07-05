@@ -1,410 +1,193 @@
-/*==================================================
-      WHITE STONE HUB
-      PREMIUM SCRIPT - PART 1
-==================================================*/
+document.addEventListener('DOMContentLoaded', () => {
 
-/*==============================
-MOBILE MENU
-==============================*/
+    // --- 1. STICKY NAVBAR MANAGEMENT & LINK TRACKER ---
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
 
-const menuBtn = document.querySelector(".menu-btn");
-const navMenu = document.querySelector(".nav-menu");
+    window.addEventListener('scroll', () => {
+        // Sticky logic
+        if (window.scrollY > 40) {
+            navbar.classList.add('sticky');
+        } else {
+            navbar.classList.remove('sticky');
+        }
 
-if (menuBtn && navMenu) {
+        // Active target element tracking setup
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 140;
+            if (window.scrollY >= sectionTop) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
 
-menuBtn.addEventListener("click", () => {
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
+            }
+        });
+    });
 
-navMenu.classList.toggle("active");
+    // --- 2. MOBILE RESPONSIVE HAMBURGER NAVIGATION ---
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinksContainer = document.querySelector('.nav-links');
 
-menuBtn.classList.toggle("active");
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('is-active');
+        navLinksContainer.classList.toggle('active');
+    });
 
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('is-active');
+            navLinksContainer.classList.remove('active');
+        });
+    });
+
+    // --- 3. SCROLL REVEAL TIMING FLOW ENGINE ---
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const triggerRevealOnScroll = () => {
+        const thresholdLine = window.innerHeight * 0.88;
+        revealElements.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            if (elementTop < thresholdLine) {
+                el.classList.add('active');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', triggerRevealOnScroll);
+    triggerRevealOnScroll(); // Execution on initialization
+
+    // --- 4. DYNAMIC INCREMENTAL NUMERIC COUNTER ---
+    const counterElements = document.querySelectorAll('.counter');
+    let hasCountersRun = false;
+
+    const runIncrementalCounters = () => {
+        counterElements.forEach(counter => {
+            counter.innerText = '0';
+            const targetLimit = +counter.getAttribute('data-target');
+            const stepIncrement = targetLimit / 35; // Target animation speed resolution
+
+            const executeUpdate = () => {
+                const currentVal = +counter.innerText;
+                if (currentVal < targetLimit) {
+                    counter.innerText = Math.ceil(currentVal + stepIncrement);
+                    setTimeout(executeUpdate, 30);
+                } else {
+                    counter.innerText = targetLimit;
+                }
+            };
+            executeUpdate();
+        });
+    };
+
+    // Observer intercept mapping for statistics visibility
+    const statsBlock = document.querySelector('.hero-stats');
+    const statsObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !hasCountersRun) {
+            runIncrementalCounters();
+            hasCountersRun = true;
+        }
+    }, { threshold: 0.15 });
+
+    if (statsBlock) statsObserver.observe(statsBlock);
+
+    // --- 5. INTERACTIVE INTERIOR GALLERY CATEGORY FILTERS ---
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryCards = document.querySelectorAll('.gallery-card-item');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class states
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterCriterion = btn.getAttribute('data-filter');
+
+            galleryCards.forEach(card => {
+                if (filterCriterion === 'all' || card.classList.contains(filterCriterion)) {
+                    card.style.display = 'block';
+                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.92)';
+                    setTimeout(() => { card.style.display = 'none'; }, 400);
+                }
+            });
+        });
+    });
+
+    // --- 6. FAQ ACCORDION EXPANSION MECHANISM ---
+    const accordionTitles = document.querySelectorAll('.accordion-title');
+
+    accordionTitles.forEach(title => {
+        title.addEventListener('click', () => {
+            const currentItem = title.parentElement;
+            const contentBox = title.nextElementSibling;
+
+            // Toggle logic for item expansion
+            if (currentItem.classList.contains('active')) {
+                contentBox.style.maxHeight = null;
+                currentItem.classList.remove('active');
+            } else {
+                // Collapse alternative expanding blocks
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.accordion-content').style.maxHeight = null;
+                });
+
+                currentItem.classList.add('active');
+                contentBox.style.maxHeight = contentBox.scrollHeight + "px";
+            }
+        });
+    });
+
+    // --- 7. MATERIAL UI BUTTON RIPPLE TRANSITIONS ---
+    const interactiveRipples = document.querySelectorAll('.ripple');
+
+    interactiveRipples.forEach(trigger => {
+        trigger.addEventListener('click', function(event) {
+            const clientX = event.clientX - event.target.getBoundingClientRect().left;
+            const clientY = event.clientY - event.target.getBoundingClientRect().top;
+
+            const rippleSpan = document.createElement('span');
+            rippleSpan.classList.add('ripple-effect');
+            rippleSpan.style.left = `${clientX}px`;
+            rippleSpan.style.top = `${clientY}px`;
+
+            this.appendChild(rippleSpan);
+            setTimeout(() => rippleSpan.remove(), 550);
+        });
+    });
+
+    // --- 8. UTILITY SCROLL BACK TO TOP DESK ---
+    const scrollTopBtn = document.getElementById('scrollTopButton');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 450) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // --- 9. DIGITAL CORE INQUIRY FORM MANAGEMENT ---
+    const inquiryForm = document.getElementById('stoneInquiryForm');
+    inquiryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nameInput = document.getElementById('clientName').value;
+        const selectedStone = document.getElementById('stoneRequired').value;
+        
+        alert(`Greetings ${nameInput}! Your strategic inquiry for [${selectedStone}] has been verified. Our corporate Kishangarh yard manager will compile blueprint pricing arrays and reach out shortly.`);
+        inquiryForm.reset();
+    });
 });
-
-}
-
-/*==============================
-CLOSE MENU AFTER CLICK
-==============================*/
-
-document.querySelectorAll(".nav-menu a").forEach(link => {
-
-link.addEventListener("click", () => {
-
-navMenu.classList.remove("active");
-
-menuBtn.classList.remove("active");
-
-});
-
-});
-
-/*==============================
-STICKY NAVBAR
-==============================*/
-
-const navbar = document.querySelector(".navbar");
-
-window.addEventListener("scroll", () => {
-
-if(window.scrollY > 80){
-
-navbar.classList.add("sticky");
-
-}else{
-
-navbar.classList.remove("sticky");
-
-}
-
-});
-
-/*==============================
-ACTIVE NAV LINK
-==============================*/
-
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-menu a");
-
-window.addEventListener("scroll", () => {
-
-let current = "";
-
-sections.forEach(section => {
-
-const sectionTop = section.offsetTop - 140;
-const sectionHeight = section.offsetHeight;
-
-if(window.pageYOffset >= sectionTop){
-
-current = section.getAttribute("id");
-
-}
-
-});
-
-navLinks.forEach(link => {
-
-link.classList.remove("active");
-
-if(link.getAttribute("href") === "#" + current){
-
-link.classList.add("active");
-
-}
-
-});
-
-});
-
-/*==============================
-SMOOTH SCROLL
-==============================*/
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-
-anchor.addEventListener("click", function(e){
-
-e.preventDefault();
-
-const target = document.querySelector(this.getAttribute("href"));
-
-if(target){
-
-target.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-}
-
-});
-
-});
-
-/*==============================
-SCROLL REVEAL
-==============================*/
-
-const revealElements = document.querySelectorAll(
-
-".hero-left, .hero-right, .about-left, .about-right, .product-card, .why-card, .gallery-item, .testimonial-card, .counter-box, .contact-left, .contact-right"
-
-);
-
-const revealOnScroll = () => {
-
-revealElements.forEach(el => {
-
-const windowHeight = window.innerHeight;
-const elementTop = el.getBoundingClientRect().top;
-
-if(elementTop < windowHeight - 80){
-
-el.classList.add("show");
-
-}
-
-});
-
-};
-
-window.addEventListener("scroll", revealOnScroll);
-
-revealOnScroll();
-
-/*==============================
-IMAGE HOVER EFFECT
-==============================*/
-
-document.querySelectorAll(".product-image img").forEach(img => {
-
-img.addEventListener("mouseenter", () => {
-
-img.style.transform = "scale(1.08)";
-
-});
-
-img.addEventListener("mouseleave", () => {
-
-img.style.transform = "scale(1)";
-
-});
-
-});
-
-/*==============================
-GALLERY HOVER
-==============================*/
-
-document.querySelectorAll(".gallery-item").forEach(item => {
-
-item.addEventListener("mouseenter", () => {
-
-item.style.transform = "translateY(-8px)";
-
-});
-
-item.addEventListener("mouseleave", () => {
-
-item.style.transform = "translateY(0px)";
-
-});
-
-}); /*==================================================
-      WHITE STONE HUB
-      PREMIUM SCRIPT - PART 2
-==================================================*/
-
-/*==============================
-COUNTER ANIMATION
-==============================*/
-
-const counters = document.querySelectorAll(".counter-box h2");
-
-const startCounter = () => {
-
-counters.forEach(counter => {
-
-const targetText = counter.innerText;
-
-const target = parseInt(targetText.replace(/\D/g,""));
-
-let count = 0;
-
-const speed = target / 80;
-
-const updateCounter = () => {
-
-if(count < target){
-
-count += speed;
-
-counter.innerText = Math.ceil(count) + (targetText.includes("+") ? "+" : "");
-
-requestAnimationFrame(updateCounter);
-
-}else{
-
-counter.innerText = targetText;
-
-}
-
-};
-
-updateCounter();
-
-});
-
-};
-
-const counterSection = document.querySelector(".counter-section");
-
-let counterStarted = false;
-
-window.addEventListener("scroll",()=>{
-
-if(counterSection){
-
-const top = counterSection.getBoundingClientRect().top;
-
-if(top < window.innerHeight - 100 && !counterStarted){
-
-counterStarted = true;
-
-startCounter();
-
-}
-
-}
-
-});
-
-/*==============================
-CONTACT FORM
-==============================*/
-
-const form = document.querySelector("form");
-
-if(form){
-
-form.addEventListener("submit",(e)=>{
-
-e.preventDefault();
-
-const name = form.querySelector('input[type="text"]').value.trim();
-
-if(name===""){
-
-alert("Please enter your name.");
-
-return;
-
-}
-
-alert("Thank you! We will contact you soon.");
-
-form.reset();
-
-});
-
-}
-
-/*==============================
-BUTTON RIPPLE EFFECT
-==============================*/
-
-document.querySelectorAll(".btn-primary,.btn-secondary,.cta-btn,.nav-btn")
-.forEach(button=>{
-
-button.addEventListener("click",function(e){
-
-const ripple=document.createElement("span");
-
-const rect=this.getBoundingClientRect();
-
-const size=Math.max(rect.width,rect.height);
-
-ripple.style.width=size+"px";
-ripple.style.height=size+"px";
-
-ripple.style.left=(e.clientX-rect.left-size/2)+"px";
-ripple.style.top=(e.clientY-rect.top-size/2)+"px";
-
-ripple.classList.add("ripple");
-
-this.appendChild(ripple);
-
-setTimeout(()=>{
-
-ripple.remove();
-
-},600);
-
-});
-
-});
-
-/*==============================
-SCROLL TO TOP BUTTON
-==============================*/
-
-const topBtn=document.createElement("button");
-
-topBtn.innerHTML='<i class="fa-solid fa-arrow-up"></i>';
-
-topBtn.className="scroll-top";
-
-document.body.appendChild(topBtn);
-
-window.addEventListener("scroll",()=>{
-
-if(window.scrollY>400){
-
-topBtn.classList.add("show");
-
-}else{
-
-topBtn.classList.remove("show");
-
-}
-
-});
-
-topBtn.addEventListener("click",()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-});
-
-/*==============================
-NAVBAR SHADOW
-==============================*/
-
-window.addEventListener("scroll",()=>{
-
-if(window.scrollY>20){
-
-navbar.style.boxShadow="0 10px 30px rgba(0,0,0,.08)";
-
-}else{
-
-navbar.style.boxShadow="none";
-
-}
-
-});
-
-/*==============================
-PRELOAD HERO IMAGE
-==============================*/
-
-const heroImage=new Image();
-
-heroImage.src="hero.jpeg";
-
-/*==============================
-CURRENT YEAR
-==============================*/
-
-const year=document.querySelector(".year");
-
-if(year){
-
-year.textContent=new Date().getFullYear();
-
-}
-
-/*==============================
-CONSOLE MESSAGE
-==============================*/
-
-console.log("%cWhite Stone Hub","font-size:26px;font-weight:bold;color:#C7A86D;");
-
-console.log("%cPremium Marble & Granite Website","font-size:14px;color:#666;"); 
