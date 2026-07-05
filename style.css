@@ -520,11 +520,11 @@ transform:translateY(0);
 /*==============================
 HERO SECTION
 ==============================*/
-
 .hero{
 
 position:relative;
-padding:140px 0 90px;
+margin-top:90px;
+padding:100px 0 90px;
 background:linear-gradient(135deg,#F8F6F2,#EFE7DA);
 overflow:hidden;
 
