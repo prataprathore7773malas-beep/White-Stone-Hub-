@@ -20,13 +20,12 @@ ROOT COLORS
 
 --secondary:#2C2C2C;
 
---bg:#F8F6F2;
---white:#FFFFFF;
-
---text:#3A3A3A;
---text-light:#6F6F6F;
-
---border:#E8E2D8;
+--bg:#0F0F10;
+--white:#1A1A1A;
+--secondary:#FFFFFF;
+--text:#F5F5F5;
+--text-light:#CFCFCF;
+--border:#333333;;
 
 --shadow:0 12px 35px rgba(0,0,0,.08);
 
