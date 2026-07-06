@@ -547,15 +547,39 @@ flex-wrap:wrap;
 
 }
 
+ .hero-right{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
 .hero-right img{
 
-border-radius:25px;
+    width:100%;
 
-border:2px solid rgba(212,175,55,.18);
+    max-width:720px;
 
-box-shadow:0 30px 80px rgba(0,0,0,.45);
+    height:620px;
 
-transition:.4s;
+    object-fit:cover;
+
+    border-radius:28px;
+
+    border:2px solid rgba(212,175,55,.18);
+
+    box-shadow:0 35px 90px rgba(0,0,0,.55);
+
+    transition:.45s;
+
+}
+
+.hero-right img:hover{
+
+    transform:scale(1.03);
 
 }
 
