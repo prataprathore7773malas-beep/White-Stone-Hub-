@@ -423,3 +423,43 @@ console.log(
 "color:#bdbdbd;font-size:13px;"
 
 );
+/*==============================
+WHATSAPP ENQUIRY FORM
+==============================*/
+
+const enquiryForm = document.getElementById("enquiryForm");
+
+if (enquiryForm) {
+
+    enquiryForm.addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+
+        const phone = document.getElementById("phone").value.trim();
+
+        const email = document.getElementById("email").value.trim();
+
+        const requirement = document.getElementById("requirement").value.trim();
+
+        const message =
+`🪨 White Stone Hub Enquiry
+
+👤 Name: ${name}
+
+📞 Phone: ${phone}
+
+📧 Email: ${email || "Not Provided"}
+
+📝 Requirement:
+${requirement}`;
+
+        const whatsappURL =
+`https://wa.me/919928290455?text=${encodeURIComponent(message)}`;
+
+        window.open(whatsappURL, "_blank");
+
+    });
+
+}
